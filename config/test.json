@@ -1,0 +1,4 @@
+{
+    "jwtPrivateKey": "1234",
+    "db": "mongodb://admin:admin1@ds237588.mlab.com:37588/calendar_test"
+}
