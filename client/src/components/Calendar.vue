@@ -205,7 +205,6 @@ export default {
       return interval.time;
     },
     eventName(ev) {
-      console.log(ev);
       return `<strong class="mr-2">${ev.start.time}</strong>${ev.input.name}`;
     }
   }

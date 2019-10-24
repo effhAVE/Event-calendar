@@ -4,6 +4,7 @@ const app = express();
 require("./startup/database")();
 require("./startup/config")();
 require("./startup/routes")(app);
+require("./startup/production")(app);
 
 const port = process.env.PORT || 3000;
 if (process.env.NODE_ENV !== "test") {
