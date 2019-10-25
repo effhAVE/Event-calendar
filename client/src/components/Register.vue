@@ -12,7 +12,7 @@
               <v-text-field
                 :label="$t(`formNameLabel`)"
                 name="name"
-                prepend-icon="mdi-name"
+                prepend-icon="mdi-account-card-details"
                 type="text"
                 v-model="name"
                 :rules="nameRules"

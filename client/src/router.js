@@ -8,6 +8,7 @@ import Register from "./components/Register.vue"
 Vue.use(Router)
 
 let router = new Router({
+  mode: "history",
   routes: [
     {
       path: "/",
