@@ -40,7 +40,7 @@ export default new Vuex.Store({
 		}, user) {
 			return new Promise((resolve, reject) => {
 				commit("authRequest");
-				axios.post("http://localhost:3000/api/auth", user)
+				axios.post("/api/auth", user)
 					.then(resp => {
 						const token = resp.data;
 						localStorage.setItem("token", token);
@@ -62,7 +62,7 @@ export default new Vuex.Store({
 			let user;
 			const token = localStorage.getItem("token");
 			axios.defaults.headers.common["x-auth-token"] = token;
-			return axios.get("http://localhost:3000/api/users/me")
+			return axios.get("/api/users/me")
 				.then(res => {
 					user = res.data;
 				})
@@ -78,7 +78,7 @@ export default new Vuex.Store({
 		}, user) {
 			return new Promise((resolve, reject) => {
 				commit("authRequest");
-				axios.post("http://localhost:3000/api/users", user)
+				axios.post("/api/users", user)
 					.then(resp => {
 						const token = resp.headers["x-auth-token"];
 						const user = resp.data;
@@ -119,7 +119,7 @@ export default new Vuex.Store({
 				await dispatch("getUserData");
 			}
 
-			return axios.get(`http://localhost:3000/api/users/${state.user._id}/events?startDate=${dateRangeMin}&endDate=${dateRangeMax}`)
+			return axios.get(`/api/users/${state.user._id}/events?startDate=${dateRangeMin}&endDate=${dateRangeMax}`)
 				.then(res => {
 					const events = res.data;
 					const eventsMapped = events.map(event => {
