@@ -9,11 +9,11 @@ module.exports = function(app) {
     app.use(function(req, res, next) {
         res.header("Access-Control-Allow-Origin", "*");
         res.header("Access-Control-Allow-Headers", "*");
+        res.header('Access-Control-Expose-Headers', "x-auth-token");
         next();
     });
     app.use("/api/users", users);
     app.use("/api/auth", auth);
-    app.use("/", express.static("../client/dist"));
     app.use(history());
     app.use(error);
 }

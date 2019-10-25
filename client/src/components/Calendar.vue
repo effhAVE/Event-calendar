@@ -44,10 +44,10 @@
           :event-color="getEventColor"
           :event-margin-bottom="3"
           :event-name="eventName"
+          :interval-format="intervalFormat"
           :now="today"
           :type="type"
-          :weekdays="[1, 2, 3, 4, 5, 6, 0]"
-          :interval-format="intervalFormat"
+          :weekdays="weekdays"
           @click:event="showEvent"
           @click:more="viewDay"
           @click:date="viewDay"
@@ -94,7 +94,9 @@ export default {
     today: [today.getFullYear(), today.getMonth() + 1, today.getDate()].join(
       "-"
     ),
-    focus: String(today),
+    focus: [today.getFullYear(), today.getMonth() + 1, today.getDate()].join(
+      "-"
+    ),
     type: "month",
     typeToLabel: {
       month: "calendarMonth",
@@ -103,6 +105,7 @@ export default {
     },
     start: null,
     end: null,
+    weekdays: [1, 2, 3, 4, 5, 6, 0],
     selectedEvent: {},
     selectedElement: null,
     selectedOpen: false,
@@ -188,6 +191,7 @@ export default {
         });
         this.dbEventsMemory.push(startYear);
       }
+
       this.start = start;
       this.end = end;
     },

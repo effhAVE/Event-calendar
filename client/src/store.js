@@ -35,7 +35,8 @@ export default new Vuex.Store({
 	},
 	actions: {
 		login({
-			commit, dispatch
+			commit,
+			dispatch
 		}, user) {
 			return new Promise((resolve, reject) => {
 				commit("authRequest");
@@ -83,7 +84,10 @@ export default new Vuex.Store({
 						const user = resp.data;
 						localStorage.setItem("token", token);
 						axios.defaults.headers.common["x-auth-token"] = token;
-						commit("authSuccess", token, user);
+						commit("authSuccess", {
+							token,
+							user
+						});
 						resolve(resp);
 					})
 					.catch(err => {
@@ -105,8 +109,12 @@ export default new Vuex.Store({
 			});
 		},
 		async getEvents({
-			state, dispatch
-		}, { dateRangeMin = "", dateRangeMax = "" }) {
+			state,
+			dispatch
+		}, {
+			dateRangeMin = "",
+			dateRangeMax = ""
+		}) {
 			if (Object.entries(state.user).length === 0) {
 				await dispatch("getUserData");
 			}

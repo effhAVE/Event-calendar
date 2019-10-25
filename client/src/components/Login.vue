@@ -8,13 +8,15 @@
             <v-spacer></v-spacer>
           </v-toolbar>
           <v-card-text>
-            <v-form>
+            <v-form v-model="valid">
               <v-text-field
                 :label="$t(`formEmailLabel`)"
                 name="email"
                 prepend-icon="mdi-email"
                 type="text"
                 v-model="email"
+                :rules="loginRules"
+                required
               ></v-text-field>
 
               <v-text-field
@@ -24,12 +26,16 @@
                 prepend-icon="mdi-lock"
                 type="password"
                 v-model="password"
+                :rules="loginRules"
+                required
               ></v-text-field>
             </v-form>
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="primary" @click="login" large>Login</v-btn>
+            <v-btn color="primary" @click="login" :disabled="!valid" large>{{
+              $t("appLoginTitle")
+            }}</v-btn>
           </v-card-actions>
         </v-card>
       </v-col>
@@ -43,7 +49,9 @@ export default {
     return {
       email: "",
       password: "",
-      drawer: null
+      drawer: null,
+      loginRules: [value => !!value || this.$t("formRequired")],
+      valid: false
     };
   },
   methods: {

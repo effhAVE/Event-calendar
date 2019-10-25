@@ -7,9 +7,6 @@
             >{{ $t("appWelcomeText") }}, {{ user.name }}</span
           >
         </v-list-item>
-        <v-list-item>
-          <v-list-item-title>isLoggedIn {{ isLoggedIn }}</v-list-item-title>
-        </v-list-item>
         <v-list-item to="/">
           <v-list-item-icon>
             <v-icon>mdi-home</v-icon>
