@@ -36,10 +36,17 @@
         </v-toolbar>
       </v-sheet>
       <v-sheet height="calc(100vh - 152px)">
+        <EventEdit
+          :event="selectedEvent"
+          :dialog.sync="editOpen"
+          @eventEdited="updateEvent"
+        />
         <v-calendar
           ref="calendar"
           v-model="focus"
           color="primary"
+          event-end="endDate"
+          event-start="startDate"
           :events="events"
           :event-color="getEventColor"
           :event-margin-bottom="3"
@@ -61,7 +68,7 @@
         >
           <v-card color="grey lighten-4" min-width="350px" flat>
             <v-toolbar :color="selectedEvent.color" dark>
-              <v-btn icon>
+              <v-btn icon @click="editEvent">
                 <v-icon>mdi-pencil</v-icon>
               </v-btn>
               <v-toolbar-title v-html="selectedEvent.name"></v-toolbar-title>
@@ -88,8 +95,13 @@
   </v-row>
 </template>
 <script>
+import EventEdit from "./Events/Edit";
+
 const today = new Date();
 export default {
+  components: {
+    EventEdit
+  },
   data: () => ({
     today: [today.getFullYear(), today.getMonth() + 1, today.getDate()].join(
       "-"
@@ -109,6 +121,7 @@ export default {
     selectedEvent: {},
     selectedElement: null,
     selectedOpen: false,
+    editOpen: false,
     events: [],
     dbEventsMemory: []
   }),
@@ -182,6 +195,9 @@ export default {
 
       nativeEvent.stopPropagation();
     },
+    editEvent() {
+      this.editOpen = true;
+    },
     updateRange({ start, end }) {
       const startYear = start.date.split("-")[0];
       if (!this.dbEventsMemory.includes(startYear)) {
@@ -210,6 +226,10 @@ export default {
     },
     eventName(ev) {
       return `<strong class="mr-2">${ev.start.time}</strong>${ev.input.name}`;
+    },
+    updateEvent(updated) {
+      const eventIndex = this.events.findIndex(ev => ev._id === updated._id);
+      this.events.splice(eventIndex, 1, updated);
     }
   }
 };

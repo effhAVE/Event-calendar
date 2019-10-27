@@ -1,10 +1,11 @@
 import Vue from "vue"
 import Vuex from "vuex"
 import axios from "axios"
-import moment from "vue-moment"
+import apiURL from "./config/apiURL"
+import mapEvents from "./helpers/mapEvents";
 
 Vue.use(Vuex)
-Vue.use(moment)
+const url = apiURL();
 
 export default new Vuex.Store({
 	state: {
@@ -40,7 +41,7 @@ export default new Vuex.Store({
 		}, user) {
 			return new Promise((resolve, reject) => {
 				commit("authRequest");
-				axios.post("/api/auth", user)
+				axios.post(url + "/api/auth", user)
 					.then(resp => {
 						const token = resp.data;
 						localStorage.setItem("token", token);
@@ -62,7 +63,7 @@ export default new Vuex.Store({
 			let user;
 			const token = localStorage.getItem("token");
 			axios.defaults.headers.common["x-auth-token"] = token;
-			return axios.get("/api/users/me")
+			return axios.get(url + "/api/users/me")
 				.then(res => {
 					user = res.data;
 				})
@@ -78,7 +79,7 @@ export default new Vuex.Store({
 		}, user) {
 			return new Promise((resolve, reject) => {
 				commit("authRequest");
-				axios.post("/api/users", user)
+				axios.post(url + "/api/users", user)
 					.then(resp => {
 						const token = resp.headers["x-auth-token"];
 						const user = resp.data;
@@ -119,14 +120,10 @@ export default new Vuex.Store({
 				await dispatch("getUserData");
 			}
 
-			return axios.get(`/api/users/${state.user._id}/events?startDate=${dateRangeMin}&endDate=${dateRangeMax}`)
+			return axios.get(`${url}/api/users/${state.user._id}/events?startDate=${dateRangeMin}&endDate=${dateRangeMax}`)
 				.then(res => {
 					const events = res.data;
-					const eventsMapped = events.map(event => {
-						event.start = Vue.moment(event.startDate).format("YYYY-MM-DD HH:mm");
-						event.end = Vue.moment(event.endDate).format("YYYY-MM-DD HH:mm");
-						return event;
-					});
+					const eventsMapped = mapEvents(events);
 					return eventsMapped;
 				})
 				.catch(err => {
