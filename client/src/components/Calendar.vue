@@ -90,9 +90,20 @@
               <v-btn icon @click="editEvent">
                 <v-icon>mdi-pencil</v-icon>
               </v-btn>
-              <v-btn icon>
-                <v-icon>mdi-dots-vertical</v-icon>
-              </v-btn>
+              <v-menu bottom left offset-y>
+                <template v-slot:activator="{ on }">
+                  <v-btn dark icon v-on="on">
+                    <v-icon>mdi-dots-vertical</v-icon>
+                  </v-btn>
+                </template>
+                <v-list>
+                  <v-list-item @click="deleteEvent">
+                    <v-list-item-title>{{
+                      $t("buttonDeleteText")
+                    }}</v-list-item-title>
+                  </v-list-item>
+                </v-list>
+              </v-menu>
             </v-toolbar>
             <v-card-text>
               <span v-html="selectedEvent.details"></span>
@@ -111,6 +122,7 @@
 <script>
 import EventEdit from "./Events/Edit";
 import EventAdd from "./Events/Add";
+import api from "../api";
 
 const today = new Date();
 export default {
@@ -250,6 +262,18 @@ export default {
     },
     addEvent(newEvent) {
       this.events.push(newEvent);
+    },
+    async deleteEvent() {
+      const deleted = await api.deleteEvent(
+        this.$store.state.user._id,
+        this.selectedEvent._id
+      );
+      if (deleted) {
+        const eventIndex = this.events.findIndex(ev => ev._id === deleted._id);
+        this.events.splice(eventIndex, 1);
+        this.selectedOpen = false;
+        this.selectedEvent = {};
+      }
     }
   }
 };
