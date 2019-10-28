@@ -41,6 +41,7 @@
           :dialog.sync="editOpen"
           @eventEdited="updateEvent"
         />
+        <EventAdd :day="focus" :dialog.sync="addOpen" @eventAdded="addEvent" />
         <v-calendar
           ref="calendar"
           v-model="focus"
@@ -60,21 +61,34 @@
           @click:date="viewDay"
           @change="updateRange"
         ></v-calendar>
+        <v-fab-transition>
+          <v-btn
+            color="primary"
+            dark
+            absolute
+            fab
+            style="bottom: 10%; right: 10%"
+            v-show="type === 'day'"
+            @click="addOpen = true"
+          >
+            <v-icon>mdi-plus</v-icon>
+          </v-btn>
+        </v-fab-transition>
         <v-menu
           v-model="selectedOpen"
           :close-on-content-click="false"
           :activator="selectedElement"
-          offset-x
+          offset-y
+          bottom
+          min-width="350px"
+          max-width="450px"
         >
-          <v-card color="grey lighten-4" min-width="350px" flat>
+          <v-card color="grey lighten-4">
             <v-toolbar :color="selectedEvent.color" dark>
-              <v-btn icon @click="editEvent">
-                <v-icon>mdi-pencil</v-icon>
-              </v-btn>
               <v-toolbar-title v-html="selectedEvent.name"></v-toolbar-title>
               <v-spacer></v-spacer>
-              <v-btn icon>
-                <v-icon>mdi-heart</v-icon>
+              <v-btn icon @click="editEvent">
+                <v-icon>mdi-pencil</v-icon>
               </v-btn>
               <v-btn icon>
                 <v-icon>mdi-dots-vertical</v-icon>
@@ -96,11 +110,13 @@
 </template>
 <script>
 import EventEdit from "./Events/Edit";
+import EventAdd from "./Events/Add";
 
 const today = new Date();
 export default {
   components: {
-    EventEdit
+    EventEdit,
+    EventAdd
   },
   data: () => ({
     today: [today.getFullYear(), today.getMonth() + 1, today.getDate()].join(
@@ -122,6 +138,7 @@ export default {
     selectedElement: null,
     selectedOpen: false,
     editOpen: false,
+    addOpen: false,
     events: [],
     dbEventsMemory: []
   }),
@@ -230,6 +247,9 @@ export default {
     updateEvent(updated) {
       const eventIndex = this.events.findIndex(ev => ev._id === updated._id);
       this.events.splice(eventIndex, 1, updated);
+    },
+    addEvent(newEvent) {
+      this.events.push(newEvent);
     }
   }
 };

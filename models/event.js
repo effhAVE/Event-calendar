@@ -36,7 +36,7 @@ function validateEvent(event) {
         startDate: Joi.date().required(),
         endDate: Joi.date().required().min(Joi.ref("startDate")),
         color: Joi.string(),
-        details: Joi.string()
+        details: Joi
     };
 
     return Joi.validate(event, schema);
