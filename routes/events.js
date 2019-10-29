@@ -49,7 +49,7 @@ router.get("/", validateObjectID("userId"), auth, async (req, res) => {
         }
 
     ]);
-    
+
     events = events[0].events;
     res.send(events);
 });

@@ -52,6 +52,7 @@
           :event-color="getEventColor"
           :event-margin-bottom="3"
           :event-name="eventName"
+          :event-text-color="setEventColor"
           :interval-format="intervalFormat"
           :now="today"
           :type="type"
@@ -84,7 +85,7 @@
           max-width="450px"
         >
           <v-card color="grey lighten-4">
-            <v-toolbar :color="selectedEvent.color" dark>
+            <v-toolbar :color="selectedEvent.color" :dark="setDarkMode">
               <v-toolbar-title v-html="selectedEvent.name"></v-toolbar-title>
               <v-spacer></v-spacer>
               <v-btn icon @click="editEvent">
@@ -92,7 +93,7 @@
               </v-btn>
               <v-menu bottom left offset-y>
                 <template v-slot:activator="{ on }">
-                  <v-btn dark icon v-on="on">
+                  <v-btn icon v-on="on">
                     <v-icon>mdi-dots-vertical</v-icon>
                   </v-btn>
                 </template>
@@ -186,6 +187,9 @@ export default {
         timeZone: "UTC",
         month: "long"
       });
+    },
+    setDarkMode() {
+      return this.setEventColor(this.selectedEvent) === "white";
     }
   },
   async mounted() {
@@ -274,6 +278,34 @@ export default {
         this.selectedOpen = false;
         this.selectedEvent = {};
       }
+    },
+    setEventColor({ color }) {
+      if (!color) return;
+      // If a leading # is provided, remove it
+      if (color.slice(0, 1) === "#") {
+        color = color.slice(1);
+      }
+
+      // If a three-character hexcode, make six-character
+      if (color.length === 3) {
+        color = color
+          .split("")
+          .map(function(hex) {
+            return hex + hex;
+          })
+          .join("");
+      }
+
+      // Convert to RGB value
+      const r = parseInt(color.substr(0, 2), 16);
+      const g = parseInt(color.substr(2, 2), 16);
+      const b = parseInt(color.substr(4, 2), 16);
+
+      // Get YIQ ratio
+      let yiq = (r * 299 + g * 587 + b * 114) / 1000;
+
+      // Check contrast
+      return yiq >= 128 ? "black" : "white";
     }
   }
 };
