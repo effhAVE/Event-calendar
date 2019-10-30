@@ -54,6 +54,7 @@
           :event-name="eventName"
           :event-text-color="setEventColor"
           :interval-format="intervalFormat"
+          :locale="$vuetify.lang.current"
           :now="today"
           :type="type"
           :weekdays="weekdays"
@@ -168,7 +169,7 @@ export default {
 
       const startYear = start.year;
       const endYear = end.year;
-      const suffixYear = startYear === endYear ? "" : endYear;
+      const suffixYear = startYear === endYear ? "" : startYear;
 
       const startDay = start.day;
       const endDay = end.day;
@@ -177,6 +178,7 @@ export default {
         case "month":
           return `${startMonth} ${startYear}`;
         case "week":
+          return `${startMonth} ${startDay} ${suffixYear} - ${endMonth} ${endDay} ${endYear}`;
         case "day":
           return `${startDay} ${startMonth} ${startYear}`;
       }

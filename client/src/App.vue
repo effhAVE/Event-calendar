@@ -148,6 +148,7 @@ export default {
 
     changeLocale(locale) {
       i18n.locale = locale;
+      this.$vuetify.lang.current = locale;
     }
   },
   created() {
