@@ -1,9 +1,14 @@
-import editEvent from "./editEvent";
-import saveEvent from "./saveEvent";
-import deleteEvent from "./deleteEvent";
+import editEvent from "./events/editEvent";
+import saveEvent from "./events/saveEvent";
+import deleteEvent from "./events/deleteEvent";
+
+import updateLanguage from "./settings/updateLanguage";
+import updateLayout from "./settings/updateLayout";
 
 export default {
     editEvent,
     saveEvent,
-    deleteEvent
+    deleteEvent,
+    updateLanguage,
+    updateLayout
 }

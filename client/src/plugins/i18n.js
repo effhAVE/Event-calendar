@@ -33,9 +33,15 @@ const messages = {
         buttonSaveText: "Save",
         buttonDeleteText: "Delete",
         navHome: "Home",
+        navSettings: "Settings",
         navLogin: "Log in",
         navRegister: "Sign up",
-        navLogout: "Logout"
+        navLogout: "Logout",
+        settingsLayoutTitle: "Layout settings",
+        settingsLayoutDarkTitle: "Dark mode",
+        settingsLayoutDarkDesc: "Inverts light and dark colors",
+        settingsLayoutThemeTitle: "Theme",
+        settingsLayoutThemeDesc: "Sets the color palette",
     },
     'pl': {
         appWelcomeText: "Witaj",
@@ -67,15 +73,20 @@ const messages = {
         buttonSaveText: "Zapisz",
         buttonDeleteText: "Usuń",
         navHome: "Strona główna",
+        navSettings: "Ustawienia",
         navLogin: "Zaloguj się",
         navRegister: "Zarejestruj się",
-        navLogout: "Wyloguj"
+        navLogout: "Wyloguj",
+        settingsLayoutTitle: "Ustawienia wyglądu",
+        settingsLayoutDarkTitle: "Tryb nocny",
+        settingsLayoutDarkDesc: "Odwraca jasne i ciemne kolory",
+        settingsLayoutThemeTitle: "Motyw",
+        settingsLayoutThemeDesc: "Ustawia schemat kolorów",
     }
 };
 
 const i18n = new VueI18n({
-    locale: 'pl',
-    fallbackLocale: 'en',
+    locale: 'en',
     messages,
 });
 

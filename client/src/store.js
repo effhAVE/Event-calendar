@@ -11,7 +11,7 @@ export default new Vuex.Store({
 	state: {
 		status: "",
 		token: localStorage.getItem("token") || "",
-		user: {}
+		user: {},
 	},
 	mutations: {
 		authRequest(state) {
@@ -22,16 +22,16 @@ export default new Vuex.Store({
 			user
 		}) {
 			state.status = "success",
-				state.token = token,
-				state.user = user
+			state.token = token,
+			state.user = user
 		},
 		authError(state) {
 			state.status = "error"
 		},
 		logout(state) {
 			state.status = "",
-				state.token = "",
-				state.user = {}
+			state.token = "",
+			state.user = {}
 		},
 	},
 	actions: {
@@ -134,5 +134,12 @@ export default new Vuex.Store({
 	getters: {
 		isLoggedIn: state => !!state.token,
 		authStatus: state => state.status,
+		lang: state => {
+			if (state.user.settings) {
+				return state.user.settings.lang
+			} else {
+				return "en";
+			}
+		}
 	}
 })

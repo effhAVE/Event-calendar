@@ -1,7 +1,7 @@
 <template>
   <v-app id="app">
-    <v-navigation-drawer v-model="drawer" app clipped color="grey lighten-4">
-      <v-list dense class="grey lighten-4">
+    <v-navigation-drawer v-model="drawer" app clipped>
+      <v-list>
         <v-list-item v-if="isLoggedIn">
           <span class="font-weight-black"
             >{{ $t("appWelcomeText") }}, {{ user.name }}</span
@@ -13,6 +13,14 @@
           </v-list-item-icon>
 
           <v-list-item-title>{{ $t("navHome") }}</v-list-item-title>
+        </v-list-item>
+
+        <v-list-item v-if="isLoggedIn" to="/settings">
+          <v-list-item-icon>
+            <v-icon>mdi-settings</v-icon>
+          </v-list-item-icon>
+
+          <v-list-item-title>{{ $t("navSettings") }}</v-list-item-title>
         </v-list-item>
 
         <v-list-item v-if="!isLoggedIn" to="/login">
@@ -108,6 +116,8 @@
 
 <script>
 import i18n from "@/plugins/i18n";
+import api from "./api";
+
 export default {
   data() {
     return {
@@ -127,6 +137,10 @@ export default {
       return this.$store.state.user;
     },
 
+    lang() {
+      return this.$store.getters.lang;
+    },
+
     userAvatar() {
       if (!this.user.name) {
         return "";
@@ -139,6 +153,20 @@ export default {
         .join("");
     }
   },
+  watch: {
+    lang: function(locale) {
+      i18n.locale = locale;
+      this.$vuetify.lang.current = locale;
+    },
+    user: {
+      deep: true,
+      handler(edited) {
+        this.$vuetify.theme.dark = edited.settings
+          ? edited.settings.layout.dark
+          : false;
+      }
+    }
+  },
   methods: {
     logout: function() {
       this.$store.dispatch("logout").then(() => {
@@ -146,9 +174,14 @@ export default {
       });
     },
 
-    changeLocale(locale) {
-      i18n.locale = locale;
-      this.$vuetify.lang.current = locale;
+    async changeLocale(locale) {
+      if (this.isLoggedIn) {
+        await api.updateLanguage({ lang: locale });
+        this.$store.dispatch("getUserData");
+      } else {
+        i18n.locale = locale;
+        this.$vuetify.lang.current = locale;
+      }
     }
   },
   created() {

@@ -7,8 +7,10 @@ const router = express.Router();
 const auth = require("../middleware/auth");
 const bcrypt = require("bcrypt");
 const events = require("./events");
+const settings = require("./settings");
 
 router.use("/:userId/events", events);
+router.use("/me/settings", settings);
 
 router.get("/me", auth, async (req, res) => {
     const user = await User.findById(req.user._id).select("-password -events");

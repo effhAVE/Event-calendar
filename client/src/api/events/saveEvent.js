@@ -1,6 +1,6 @@
 import axios from "axios";
-import apiURL from "../config/apiURL";
-import mapEvents from "../helpers/mapEvents";
+import apiURL from "../../config/apiURL";
+import mapEvents from "../../helpers/mapEvents";
 
 const url = apiURL();
 

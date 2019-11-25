@@ -2,7 +2,7 @@
   <v-row>
     <v-col>
       <v-sheet height="64">
-        <v-toolbar flat color="white">
+        <v-toolbar flat>
           <v-btn outlined class="mr-4" @click="setToday">
             {{ $t("calendarToday") }}
           </v-btn>
@@ -54,7 +54,7 @@
           :event-name="eventName"
           :event-text-color="setEventColor"
           :interval-format="intervalFormat"
-          :locale="$vuetify.lang.current"
+          :locale="$store.getters.lang"
           :now="today"
           :type="type"
           :weekdays="weekdays"
@@ -108,7 +108,7 @@
               </v-menu>
             </v-toolbar>
             <v-card-text>
-              <span v-html="selectedEvent.details"></span>
+              <span v-html="selectedEvent.details" style="color: grey"></span>
             </v-card-text>
             <v-card-actions>
               <v-btn text color="secondary" @click="selectedOpen = false">

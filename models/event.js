@@ -21,7 +21,7 @@ const eventSchema = new mongoose.Schema({
     
     color: {
         type: String,
-        default: "#ff0000"
+        default: "#FF0000"
     },
 
     details: {

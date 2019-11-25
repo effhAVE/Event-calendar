@@ -1,5 +1,5 @@
 import axios from "axios";
-import apiURL from "../config/apiURL";
+import apiURL from "../../config/apiURL";
 
 const url = apiURL();
 
