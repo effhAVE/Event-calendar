@@ -35,7 +35,10 @@
           </v-menu>
         </v-toolbar>
       </v-sheet>
-      <v-sheet height="calc(100vh - 152px)">
+      <v-overlay :value="loading" opacity="100">
+        <v-progress-circular indeterminate size="64"></v-progress-circular>
+      </v-overlay>
+      <v-sheet height="calc(100vh - 152px)" v-if="!loading">
         <EventEdit
           :event="selectedEvent"
           :dialog.sync="editOpen"
@@ -54,10 +57,10 @@
           :event-name="eventName"
           :event-text-color="setEventColor"
           :interval-format="intervalFormat"
-          :locale="$store.getters.lang"
+          :locale="userSettings.lang"
           :now="today"
           :type="type"
-          :weekdays="weekdays"
+          :weekdays="userSettings.calendar.weekSchema"
           @click:event="showEvent"
           @click:more="viewDay"
           @click:date="viewDay"
@@ -125,6 +128,7 @@
 import EventEdit from "./Events/Edit";
 import EventAdd from "./Events/Add";
 import api from "../api";
+import { mapState } from "vuex";
 
 const today = new Date();
 export default {
@@ -132,31 +136,42 @@ export default {
     EventEdit,
     EventAdd
   },
-  data: () => ({
-    today: [today.getFullYear(), today.getMonth() + 1, today.getDate()].join(
-      "-"
-    ),
-    focus: [today.getFullYear(), today.getMonth() + 1, today.getDate()].join(
-      "-"
-    ),
-    type: "month",
-    typeToLabel: {
-      month: "calendarMonth",
-      week: "calendarWeek",
-      day: "calendarDay"
-    },
-    start: null,
-    end: null,
-    weekdays: [1, 2, 3, 4, 5, 6, 0],
-    selectedEvent: {},
-    selectedElement: null,
-    selectedOpen: false,
-    editOpen: false,
-    addOpen: false,
-    events: [],
-    dbEventsMemory: []
-  }),
+  data: function() {
+    return {
+      today: [today.getFullYear(), today.getMonth() + 1, today.getDate()].join(
+        "-"
+      ),
+      focus: [today.getFullYear(), today.getMonth() + 1, today.getDate()].join(
+        "-"
+      ),
+      type: "month",
+      typeToLabel: {
+        month: "calendarMonth",
+        week: "calendarWeek",
+        day: "calendarDay"
+      },
+      start: null,
+      end: null,
+      weekdays: [1, 2, 3, 4, 5, 6, 0],
+      selectedEvent: {},
+      selectedElement: null,
+      selectedOpen: false,
+      editOpen: false,
+      addOpen: false,
+      events: [],
+      dbEventsMemory: [],
+      calendarMounted: false
+    };
+  },
   computed: {
+    loading() {
+      const settingsUndefined = typeof this.userSettings === "undefined";
+      if (!settingsUndefined && this.calendarMounted === false) {
+        this.onCalendarMounted();
+      }
+
+      return settingsUndefined;
+    },
     title() {
       const { start, end } = this;
       if (!start || !end) {
@@ -192,12 +207,17 @@ export default {
     },
     setDarkMode() {
       return this.setEventColor(this.selectedEvent) === "white";
-    }
+    },
+    ...mapState({
+      userSettings: state => state.user.settings
+    })
   },
-  async mounted() {
-    this.$refs.calendar.checkChange();
-  },
+
   methods: {
+    onCalendarMounted() {
+      this.$nextTick(() => this.$refs.calendar.checkChange());
+      this.calendarMounted = true;
+    },
     viewDay({ date }) {
       this.focus = date;
       this.type = "day";

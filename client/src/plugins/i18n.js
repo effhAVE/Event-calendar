@@ -22,6 +22,9 @@ const messages = {
         calendarMonth: "Month",
         calendarEventEditTitle: "Edit event",
         calendarEventCreateTitle: "Create event",
+        calendarMonday: "Monday",
+        calendarSunday: "Sunday",
+        calendarSaturday: "Saturday",
         eventStartdate: "Start date",
         eventEnddate: "End date",
         eventStarttime: "Start time",
@@ -42,6 +45,9 @@ const messages = {
         settingsLayoutDarkDesc: "Inverts light and dark colors",
         settingsLayoutThemeTitle: "Theme",
         settingsLayoutThemeDesc: "Sets the color palette",
+        settingsCalendarTitle: "Calendar settings",
+        settingsCalendarFirstdayTitle: "First day of the week",
+        settingsCalendarFirstdayDesc: "",
     },
     'pl': {
         appWelcomeText: "Witaj",
@@ -62,6 +68,9 @@ const messages = {
         calendarMonth: "Miesiąc",
         calendarEventEditTitle: "Edytuj wydarzenie",
         calendarEventCreateTitle: "Utwórz wydarzenie",
+        calendarMonday: "Poniedziałek",
+        calendarSunday: "Niedziela",
+        calendarSaturday: "Sobota",
         eventStartdate: "Data rozpoczęcia",
         eventEnddate: "Data zakończenia",
         eventStarttime: "Godzina rozpoczęcia",
@@ -82,6 +91,9 @@ const messages = {
         settingsLayoutDarkDesc: "Odwraca jasne i ciemne kolory",
         settingsLayoutThemeTitle: "Motyw",
         settingsLayoutThemeDesc: "Ustawia schemat kolorów",
+        settingsCalendarTitle: "Ustawienia kalendarza",
+        settingsCalendarFirstdayTitle: "Pierwszy dzień tygodnia",
+        settingsCalendarFirstdayDesc: "",
     }
 };
 

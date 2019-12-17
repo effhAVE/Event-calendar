@@ -24,4 +24,11 @@ router.put("/layout", auth, async (req, res) => {
     res.send(layout);
 });
 
+router.put("/calendar", auth, async (req, res) => {
+    const user = await User.findById(req.user._id);
+    user.settings.calendar = req.body;
+    const { settings: { calendar } } = await user.save();
+    res.send(calendar);
+});
+
 module.exports = router;

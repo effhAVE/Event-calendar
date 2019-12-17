@@ -41,6 +41,12 @@ const userSchema = new mongoose.Schema({
                 type: String,
                 default: "primary"
             }
+        },
+        calendar: {
+            weekSchema: {
+                type: Array,
+                default: [0, 1, 2, 3, 4, 5, 6]
+            }
         }
     }
 });
