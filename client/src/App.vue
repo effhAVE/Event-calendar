@@ -89,7 +89,7 @@
                   @click="changeLocale(entry.language)"
                   text
                 >
-                  <flag :iso="entry.flag" v-bind:squared="false" />
+                  <country-flag :country="entry.flag" />
                   <v-list-item-title>{{ entry.title }}</v-list-item-title>
                 </v-btn>
               </v-list-item-content>

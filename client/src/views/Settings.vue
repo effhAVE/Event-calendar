@@ -145,7 +145,6 @@ export default {
         : this.selectedFirst.value
     });
 
-    this.$store.dispatch("getUserData");
     next();
   }
 };

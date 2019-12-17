@@ -5,11 +5,10 @@ import store from './store'
 import Axios from 'axios'
 import vuetify from './plugins/vuetify';
 import i18n from './plugins/i18n';
-import FlagIcon from 'vue-flag-icon'
-import vueMoment from "vue-moment";
+import CountryFlag from 'vue-country-flag';
 
 Vue.prototype.$http = Axios;
-Vue.use(FlagIcon);
+Vue.component('country-flag', CountryFlag)
 
 const token = localStorage.getItem('user-token')
 if (token) {
@@ -23,6 +22,5 @@ new Vue({
   store,
   vuetify,
   i18n,
-  vueMoment,
   render: h => h(App)
 }).$mount('#app')
